@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import seatRoutes from "./routes/seatRoutes.js";
 
 dotenv.config();
 
@@ -15,6 +16,20 @@ app.use(express.json());
 app.get("/home", (req, res) => {
   res.json({ msg: "ok" });
 });
+
+// Attach Routes
+app.use("/api/seats", seatRoutes);
+
+// error and 404 handler
+app.use((req, res) => {
+  res.status(404).json({message : "page not found"});
+});
+
+app.use((err, req, res, next) =>{
+  console.error(err.stack);
+  res.status(500).json( {error : err.message});
+});
+
 
 // connect DB and start server
 const PORT = process.env.PORT || 5000;

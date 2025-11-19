@@ -7,11 +7,11 @@ dotenv.config();
 const createSeats = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("DB connected");
+    console.log("DB connected", mongoose.connection.name);
 
-    const totalSeats = 66;  // your library has 66 seats
+    const totalSeats = 66;  //  library has 66 seats
 
-    // Create array of seat objects
+    // array of seat objects
     const seats = [];
     for (let i = 1; i <= totalSeats; i++) {
       seats.push({ seatNumber: i, isOccupied: false });
