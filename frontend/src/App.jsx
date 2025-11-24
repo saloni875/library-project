@@ -7,6 +7,8 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 // import Gallery from "./pages/Gallery";
+import AdminSeatLayout from "./pages/AdminSeatLayout";
+import UserSeatLayout from "./pages/UserSeatLayout";
 
 export default function App() {
   return (
@@ -18,6 +20,9 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         {/* <Route path="/gallery" element={<Gallery />} /> */}
+        <Route path="/seats" element={<AdminSeatLayout/>} />
+        <Route path="/book-seats" element={<UserSeatLayout />} />
+
       </Route>
     </Routes>
   );

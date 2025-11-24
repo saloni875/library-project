@@ -17,6 +17,9 @@ app.get("/home", (req, res) => {
   res.json({ msg: "ok" });
 });
 
+// seat route 
+app.use("api/seats", seatRoutes);
+
 // Attach Routes
 app.use("/api/seats", seatRoutes);
 
