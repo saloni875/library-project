@@ -11,7 +11,8 @@ const seatSchema = new mongoose.Schema({
         default: false
     },
     currentMember: {
-        type: mongoose.Schema.Types.ObjectId,
+        // type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "Member",
         default: null
     },

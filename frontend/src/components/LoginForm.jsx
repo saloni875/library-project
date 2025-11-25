@@ -1,17 +1,26 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginForm = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login data:", form);
-    alert("Login clicked (frontend only)");
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
+      localStorage.setItem("token", res.data.token);
+      navigate("/book-seats");
+    } catch (err) {
+      console.log(err);
+      alert("Login failed");
+    }
   };
 
   return (
@@ -30,41 +39,37 @@ const LoginForm = () => {
         style={{ width: "100%", maxWidth: "400px", background: "#fff" }}
       >
         <h2 className="text-center mb-4 fw-bold">Welcome Back</h2>
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label className="form-label fw-semibold">Email address</label>
             <input
               type="email"
               name="email"
-              value={form.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="form-control"
               placeholder="Enter your email"
               required
             />
           </div>
-
           <div className="mb-3">
             <label className="form-label fw-semibold">Password</label>
             <input
               type="password"
               name="password"
-              value={form.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="form-control"
               placeholder="Enter your password"
               required
             />
           </div>
-
           <button
             type="submit"
             className="btn btn-primary w-100 rounded-pill fw-semibold py-2"
           >
             Login
           </button>
-
           <p className="text-center mt-3">
             Don't have an account?{" "}
             <Link to="/signup" className="fw-semibold text-primary">

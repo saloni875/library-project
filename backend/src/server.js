@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import seatRoutes from "./routes/seatRoutes.js";
+import authRoutes from "./routes/authRoutes.js"
 
 dotenv.config();
 
@@ -18,10 +19,12 @@ app.get("/home", (req, res) => {
 });
 
 // seat route 
-app.use("api/seats", seatRoutes);
-
-// Attach Routes
 app.use("/api/seats", seatRoutes);
+
+// auth route
+app.use("/api/auth", authRoutes);
+
+
 
 // error and 404 handler
 app.use((req, res) => {

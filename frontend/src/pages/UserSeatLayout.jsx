@@ -1,66 +1,21 @@
 
-import { useEffect, useState } from "react";
-import axios from "axios";
-import "../styles/seat.css";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import "../styles/seat.css";
 
-export default function UserSeatsLayout() {
-  const [seats, setSeats] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/seats")
-      .then((res) => setSeats(res.data))
-      .catch((err) => console.error("Error fetching seats:", err));
-  }, []);
-
-  const handleBook = (seatId, seatNumber) => {
-    console.log("User clicked seat:", seatId, seatNumber);
-    // later: call POST /api/seats/book
-  };
-
-  return (
-    // <div style={{ padding: "2rem" }}>
-    //   <h2>Select Your Seat</h2>
-    //   <div className="seat-grid">
-    //     {seats
-    //       .filter((s) => !s.isOccupied) // only empty seats for user UI
-    //       .map((seat) => (
-    //         <button
-    //           key={seat._id}
-    //           className="seat-box empty"
-    //           onClick={() => handleBook(seat._id, seat.seatNumber)}
-    //         >
-    //           {seat.seatNumber}
-    //         </button>
-    //       ))}
-    //   </div>
-    // </div>
-    <div className="seat-grid">
-      {seats.map(seat => (
-        <div
-          key={seat._id}
-          className={`seat-box ${seat.isOccupied ? "occupied" : "empty"}`}
-          onClick={() => !seat.isOccupied && handleBook(seat._id)}
-        >
-          {seat.seatNumber}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-
-// export default function UserLayout() {
+// export default function UserSeatsLayout() {
 //   const [seats, setSeats] = useState([]);
 
 //   useEffect(() => {
-//     axios.get("http://localhost:5000/api/seats")
-//       .then(res => setSeats(res.data))
-//       .catch(err => console.log(err));
+//     axios
+//       .get("http://localhost:5000/api/seats")
+//       .then((res) => setSeats(res.data))
+//       .catch((err) => console.error("Error fetching seats:", err));
 //   }, []);
 
-//   const handleBook = (id) => {
-//     alert("Seat booked: " + id);
+//   const handleBook = (seatId, seatNumber) => {
+//     console.log("User clicked seat:", seatId, seatNumber);
+//     // later: call POST /api/seats/book
 //   };
 
 //   return (
@@ -68,7 +23,7 @@ export default function UserSeatsLayout() {
 //       {seats.map(seat => (
 //         <div
 //           key={seat._id}
-//           className={`seat-box ${seat.isOccupied ? "disabled" : "empty"}`}
+//           className={`seat-box ${seat.isOccupied ? "occupied" : "empty"}`}
 //           onClick={() => !seat.isOccupied && handleBook(seat._id)}
 //         >
 //           {seat.seatNumber}
@@ -77,3 +32,48 @@ export default function UserSeatsLayout() {
 //     </div>
 //   );
 // }
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import SeatDetailsCard from "../components/SeatDetailsCard";
+
+export default function UserSeatsLayout() {
+  const [seats, setSeats] = useState([]);
+  const [selectedSeat, setSelectedSeat] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/seats")
+      .then(res => setSeats(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  function handleSeatClick(seat) {
+    if (!seat.isOccupied) {
+      setSelectedSeat(seat);
+    }
+  }
+
+  return (
+    <>
+      <div className="seat-grid">
+        {seats.map(seat => (
+          <div
+            key={seat._id}
+            className={`seat-box ${seat.isOccupied ? "occupied" : "empty"}`}
+            onClick={() => handleSeatClick(seat)}
+          >
+            {seat.seatNumber}
+          </div>
+        ))}
+      </div>
+
+      {selectedSeat && (
+        <SeatDetailsCard
+          seat={selectedSeat}
+          onClose={() => setSelectedSeat(null)}
+        />
+      )}
+    </>
+  );
+}
+

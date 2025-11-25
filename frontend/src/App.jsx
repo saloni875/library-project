@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 // import Gallery from "./pages/Gallery";
 import AdminSeatLayout from "./pages/AdminSeatLayout";
 import UserSeatLayout from "./pages/UserSeatLayout";
+import BookingForm from "./pages/BookingForm";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         {/* <Route path="/gallery" element={<Gallery />} /> */}
         <Route path="/seats" element={<AdminSeatLayout/>} />
         <Route path="/book-seats" element={<UserSeatLayout />} />
+        <Route path="/book-seats/:seatId" element={ <BookingForm/>}  />
 
       </Route>
     </Routes>

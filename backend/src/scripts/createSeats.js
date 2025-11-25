@@ -14,7 +14,29 @@ const createSeats = async () => {
     // array of seat objects
     const seats = [];
     for (let i = 1; i <= totalSeats; i++) {
-      seats.push({ seatNumber: i, isOccupied: false });
+      // seats.push({ seatNumber: i, isOccupied: false });
+      if(i=== 17){
+        seats.push({
+          seatNumber: 17,
+          isOccupied: true,
+          currentMember : "Saloni singh",
+          PaymentStatus: "pending"
+        });
+      } else if (i===18){
+        seats.push({
+          seatNumber: 18,
+          isOccupied: true,
+          currentMember : "Amita singh",
+          PaymentStatus: "paid"
+        });
+      } else{
+        seats.push({
+          seatNumber: i,
+          isOccupied: false,
+          currentMember : null,
+          PaymentStatus: "pending"
+        });
+      }
     }
 
     // Remove old seats if any

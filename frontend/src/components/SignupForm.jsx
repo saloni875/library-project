@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignupForm = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const navigate = useNavigate();
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("Signup data:", form);
-    alert("Signup clicked (frontend only)");
+    try {
+      await axios.post("http://localhost:5000/api/auth/signup", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      alert("Signup successful");
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+      alert("Signup failed");
+    }
   };
 
   return (
@@ -30,8 +43,7 @@ const SignupForm = () => {
         style={{ width: "100%", maxWidth: "400px", background: "#fff" }}
       >
         <h2 className="text-center mb-4 fw-bold">Create Account</h2>
-
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSignup}>
           <div className="mb-3">
             <label className="form-label fw-semibold">Full Name</label>
             <input
@@ -44,7 +56,6 @@ const SignupForm = () => {
               required
             />
           </div>
-
           <div className="mb-3">
             <label className="form-label fw-semibold">Email address</label>
             <input
@@ -57,7 +68,6 @@ const SignupForm = () => {
               required
             />
           </div>
-
           <div className="mb-3">
             <label className="form-label fw-semibold">Password</label>
             <input
@@ -70,14 +80,12 @@ const SignupForm = () => {
               required
             />
           </div>
-
           <button
             type="submit"
             className="btn btn-success w-100 rounded-pill fw-semibold py-2"
           >
             Sign Up
           </button>
-
           <p className="text-center mt-3">
             Already have an account?{" "}
             <Link to="/login" className="fw-semibold text-success">
