@@ -23,3 +23,28 @@ export const resetSeats = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+export const bookSeat = async (req, res) => {
+  try {
+    const seatId = req.params.id;
+    const userId = req.body.userId;
+
+    const seat = await Seat.findById(seatId);
+    if (!seat) return res.status(404).json({ msg: "Seat not found" });
+
+    if (seat.isOccupied)
+      return res.status(400).json({ msg: "Seat already occupied" });
+
+    seat.isOccupied = true;
+    seat.currentMember = userId;
+    seat.paymentStatus = "pending";
+    seat.expiryDate = null;
+
+    await seat.save();
+
+    res.json({ msg: "Seat booked successfully", seat });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

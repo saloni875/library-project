@@ -14,11 +14,11 @@ export default function SeatDetailsCard({ seat, onClose }) {
     }
 
     // If logged in → open booking form
-    navigate(`/book-seat/${seat._id}`);
+    navigate(`/book-seats/${seat._id}`);
   };
 
   return (
-    <div className="seat-card-overlay d-flex justify-content-center ">
+    <div className="seat-card-overlay  ">
       <div className="seat-card card-body card" style={{width: "18rem"}}>
         <h3>Seat Number: {seat.seatNumber}</h3>
         <p>Status: Free</p>
