@@ -16,6 +16,7 @@ const LoginForm = () => {
         password,
       });
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.data.user.id);
       navigate("/book-seats");
     } catch (err) {
       console.log(err);

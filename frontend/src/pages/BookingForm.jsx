@@ -11,30 +11,57 @@ export default function BookingForm() {
     aadhaar: "",
   });
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const token = localStorage.getItem("token");
+
+  //   try {
+  //     const res = await axios.post(
+  //       `http://localhost:5000/api/seats/book/${seatId}`,
+  //       form,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //       }
+  //     );
+  //     alert("Seat booked successfully!");
+  //   } catch (err) {
+  //     console.log("BOOKING ERROR:", err.response?.data || err.message);
+  //     alert("Booking failed!");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
-    try {
-      const res = await axios.post(
-        `http://localhost:5000/api/seats/book/${seatId}`,
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-    } catch (err) {
-      console.log("BOOKING ERROR:", err.response?.data || err.message);
-      alert("Booking failed!");
-    }
+  if (!token || !userId) {
+    alert("You must login first");
+    return;
+  }
 
-
+  try {
+    await axios.post(
+      `http://localhost:5000/api/seats/book/${seatId}`,
+      {
+        userId,        // this fixes your backend
+        ...form        // also send form fields
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
 
     alert("Seat booked successfully!");
-  };
+  } catch (err) {
+    console.log("BOOKING ERROR:", err.response?.data || err.message);
+    alert("Booking failed!");
+  }
+};
 
   return (
     <div className="container">
@@ -48,6 +75,7 @@ export default function BookingForm() {
         */}
         <input
           required
+          name="name"
           placeholder="Name"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -55,6 +83,7 @@ export default function BookingForm() {
 
         <input
           required
+          name="email"
           placeholder="Email"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -62,6 +91,7 @@ export default function BookingForm() {
 
         <input
           required
+          name="phone"
           placeholder="Phone"
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -69,6 +99,7 @@ export default function BookingForm() {
 
         <input
           required
+          name="aadhaar"
           placeholder="Aadhaar"
           value={form.aadhaar}
           onChange={(e) => setForm({ ...form, aadhaar: e.target.value })}
