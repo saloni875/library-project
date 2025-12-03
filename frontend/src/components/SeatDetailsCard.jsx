@@ -28,7 +28,7 @@ export default function SeatDetailsCard({ seat, onClose }) {
         </button>
 
         <button onClick={onClose} className="btn btn-danger mt-2">
-          Close
+          back
         </button>
       </div>
     </div>
