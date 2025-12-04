@@ -20,7 +20,7 @@ const SignupForm = () => {
         password: form.password,
       });
       alert("Signup successful");
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.log(err);
       alert("Signup failed");

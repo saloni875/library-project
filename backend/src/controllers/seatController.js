@@ -27,8 +27,13 @@ export const resetSeats = async (req, res) => {
 
 export const bookSeat = async (req, res) => {
   try {
-    const seatId = req.params.id;
-    const userId = req.body.userId;
+    
+    const { seatId } = req.params;
+    const { userId, name, email, phone, aadhaar } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ msg: "User ID missing" });
+    }
 
     const seat = await Seat.findById(seatId);
     if (!seat) return res.status(404).json({ msg: "Seat not found" });
@@ -38,6 +43,10 @@ export const bookSeat = async (req, res) => {
 
     seat.isOccupied = true;
     seat.currentMember = userId;
+    // seat.name = name;
+    // seat.email= email;
+    // seat.phone= phone;
+    // seat.aadhaar= aadhaar;
     seat.paymentStatus = "pending";
     seat.expiryDate = null;
 

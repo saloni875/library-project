@@ -9,7 +9,7 @@ export default function SeatDetailsCard({ seat, onClose }) {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/login");
+       navigate(`/login?redirect=/book-seat/${seat._id}`);
       return;
     }
 

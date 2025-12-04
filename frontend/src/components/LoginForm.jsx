@@ -16,11 +16,35 @@ const LoginForm = () => {
         password,
       });
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("token", res.data.user.id);
-      navigate("/book-seats");
+      localStorage.setItem("userId", res.data.user.id);
+      localStorage.setItem("userName", res.data.user.name);
+
+      const params = new URLSearchParams(location.search);
+      const redirect = params.get("redirect") || "/";
+
+      navigate(redirect);
     } catch (err) {
-      console.log(err);
-      alert("Login failed");
+
+      if (err.response) {
+        // Backend responded with error
+        const backendMsg =
+          err.response.data?.message ||
+          err.response.data?.msg ||
+          err.response.data?.error ||
+          "Booking failed!";
+
+        alert(`Error: ${backendMsg}`);
+      } else if (err.request) {
+        // Request sent but no response (server down, CORS, network)
+        alert("Server not responding. Please try again.");
+      } else {
+        // Something else crashed
+        alert("Unexpected error occurred.");
+      }
+
+      console.log("BOOKING ERROR:", err);
+
+
     }
   };
 
