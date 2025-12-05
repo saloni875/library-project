@@ -43,10 +43,7 @@ export const bookSeat = async (req, res) => {
 
     seat.isOccupied = true;
     seat.currentMember = userId;
-    // seat.name = name;
-    // seat.email= email;
-    // seat.phone= phone;
-    // seat.aadhaar= aadhaar;
+    //
     seat.paymentStatus = "pending";
     seat.expiryDate = null;
 
