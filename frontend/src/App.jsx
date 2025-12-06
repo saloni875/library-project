@@ -20,7 +20,6 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/gallery" element={<Gallery />} /> */}
         <Route path="/seats" element={<AdminSeatLayout/>} />
         <Route path="/book-seats" element={<UserSeatLayout />} />
         <Route path="/book-seats/:seatId" element={ <BookingForm/>}  />
