@@ -1,15 +1,25 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function BookingForm() {
   const { seatId } = useParams();
+  const [seatNumber, setSeatNumber] = useState("");
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
     aadhaar: "",
   });
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/seats/book/${seatId}`)
+      .then(res => setSeatNumber(res.data.seatNumber))
+      .catch(err => console.log(err));
+
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,7 +55,7 @@ export default function BookingForm() {
   return (
     <div className="container mt-5 d-flex justify-content-center">
       <div className="card shadow p-4" style={{ maxWidth: "450px", width: "100%" }}>
-        <h3 className="text-center mb-3">Book Seat #{seatId}</h3>
+        <h3 className="text-center mb-3">Book Seat #{seatNumber}</h3>
 
 
         <form onSubmit={handleSubmit}>
