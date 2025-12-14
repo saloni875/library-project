@@ -107,8 +107,11 @@ export default function BookingForm() {
               required
             />
           </div>
-
+          
+          <button className="btn btn-success w-50">proceed to Payment</button>
+<br /><br />
           <button className="btn btn-primary w-100">Confirm Booking</button>
+          
         </form>
       </div>
     </div>
