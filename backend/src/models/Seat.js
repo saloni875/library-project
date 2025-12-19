@@ -25,12 +25,16 @@ const seatSchema = new mongoose.Schema({
         enum: ["paid", "pending"],
         default: "pending"
     },
-    userDetails:{
+    userDetails: {
         name: String,
         email: String,
         phone: String,
         aadhaar: String
-    }
+    },
+    holeExpiry: {
+        type: Date,
+        default: null
+    },
 },
     { timestamps: true }
 );

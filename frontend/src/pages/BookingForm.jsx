@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function BookingForm() {
   const { seatId } = useParams();
+  const navigate = useNavigate();
   const [seatNumber, setSeatNumber] = useState("");
 
   const [form, setForm] = useState({
@@ -14,8 +15,12 @@ export default function BookingForm() {
   });
 
   useEffect(() => {
+    console.log("useEffect running - fetching seat");
     axios.get(`http://localhost:5000/api/seats/book/${seatId}`)
-      .then(res => setSeatNumber(res.data.seatNumber))
+      .then(res => {
+        console.log("seat fetched:", res.data);
+        setSeatNumber(res.data.seatNumber)
+      })
       .catch(err => console.log(err));
 
   }, []);
@@ -23,7 +28,7 @@ export default function BookingForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+console.log("handle summit called");
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
 
@@ -45,12 +50,14 @@ export default function BookingForm() {
         }
       );
 
-      alert("Seat booked successfully!");
+      navigate(`/payment/${seatId}`);
+
     } catch (err) {
       console.log("BOOKING ERROR:", err.response?.data || err.message);
       alert("Booking failed!");
     }
   };
+  console.log("booking form rendered");
 
   return (
     <div className="container mt-5 d-flex justify-content-center">
@@ -107,11 +114,9 @@ export default function BookingForm() {
               required
             />
           </div>
-          
-          <button className="btn btn-success w-50">proceed to Payment</button>
-<br /><br />
-          <button className="btn btn-primary w-100">Confirm Booking</button>
-          
+
+          <button type="submit" className="btn btn-primary w-100">Confirm & Proceed to Payment</button>
+
         </form>
       </div>
     </div>

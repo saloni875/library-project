@@ -15,7 +15,7 @@ export default function UserSeatsLayout() {
   }, []);
 
   function handleSeatClick(seat) {
-    if (!seat.isOccupied) {
+    if (!seat.isOccupied && seat.paymentStatus !== "pending") {
       setSelectedSeat(seat);
     }
   }
@@ -26,7 +26,13 @@ export default function UserSeatsLayout() {
         {seats.map(seat => (
           <div
             key={seat._id}
-            className={`seat-box ${seat.isOccupied ? "occupied" : "empty"}`}
+            className={`seat-box ${
+              seat.isOccupied 
+              ? "occupied" 
+              : seat.paymentStatus === "pending"
+              ?"pending"
+              :"empty"
+            }`}
             onClick={() => handleSeatClick(seat)}
           >
             {seat.seatNumber}
