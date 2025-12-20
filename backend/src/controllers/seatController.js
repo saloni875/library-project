@@ -16,7 +16,8 @@ export const resetSeats = async (req, res) => {
       currentMember: null,
       userDetails: null,
       paymentStatus: "pending",
-      expiryDate: null
+      expiryDate: null,
+      holdExpiry: null,
     });
 
     res.json({ message: "All seats reset to empty" });
@@ -72,9 +73,11 @@ export const bookSeat = async (req, res) => {
     }
 
     // ⏳ Temporary hold for 15 minutes
+    seat,isOccupied = false,
+    seat.paymentStatus = "pending";
     seat.currentMember = userId;
     seat.userDetails = { name, email, phone, aadhaar };
-    seat.paymentStatus = "pending";
+    
     seat.holdExpiry = new Date(Date.now() + 15 * 60 * 1000); // 15 min
 
     await seat.save();

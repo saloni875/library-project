@@ -31,7 +31,7 @@ const seatSchema = new mongoose.Schema({
         phone: String,
         aadhaar: String
     },
-    holeExpiry: {
+    holdExpiry: {
         type: Date,
         default: null
     },

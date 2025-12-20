@@ -1,8 +1,6 @@
-
-
 import { useEffect, useState } from "react";
 import axios from "axios";
-import SeatDetailsCard from "../components/SeatDetailsCard";
+
 
 export default function UserSeatsLayout() {
   const [seats, setSeats] = useState([]);
@@ -14,8 +12,14 @@ export default function UserSeatsLayout() {
       .catch(err => console.log(err));
   }, []);
 
+  useEffect(() => {
+    
+  }, [selectedSeat]);
+
   function handleSeatClick(seat) {
-    if (!seat.isOccupied && seat.paymentStatus !== "pending") {
+    console.log("seat clicked", seat.seatNumber, seat.isOccupied, seat.paymentStatus, seat.currentMember);
+
+    if (!seat.isOccupied && seat.currentMember === null) {
       setSelectedSeat(seat);
     }
   }
@@ -27,11 +31,11 @@ export default function UserSeatsLayout() {
           <div
             key={seat._id}
             className={`seat-box ${
-              seat.isOccupied 
-              ? "occupied" 
-              : seat.paymentStatus === "pending"
-              ?"pending"
-              :"empty"
+              seat.isOccupied
+                ? "occupied"
+                : seat.currentMember
+                ? "pending"
+                : "empty"
             }`}
             onClick={() => handleSeatClick(seat)}
           >
@@ -41,12 +45,18 @@ export default function UserSeatsLayout() {
       </div>
 
       {selectedSeat && (
-        <SeatDetailsCard
-          seat={selectedSeat}
-          onClose={() => setSelectedSeat(null)}
-        />
+        <div style={{
+          position: "fixed",
+          top: "20%",
+          left: "40%",
+          background: "white",
+          padding: "20px",
+          zIndex: 9999
+        }}>
+          <h3>Seat {selectedSeat.seatNumber}</h3>
+          <button onClick={() => setSelectedSeat(null)}>Close</button>
+        </div>
       )}
     </>
   );
 }
-
