@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import SeatDetailsCard from "../components/SeatDetailsCard";
 
 
 export default function UserSeatsLayout() {
@@ -17,7 +18,7 @@ export default function UserSeatsLayout() {
   }, [selectedSeat]);
 
   function handleSeatClick(seat) {
-    console.log("seat clicked", seat.seatNumber, seat.isOccupied, seat.paymentStatus, seat.currentMember);
+   
 
     if (!seat.isOccupied && seat.currentMember === null) {
       setSelectedSeat(seat);
@@ -45,17 +46,10 @@ export default function UserSeatsLayout() {
       </div>
 
       {selectedSeat && (
-        <div style={{
-          position: "fixed",
-          top: "20%",
-          left: "40%",
-          background: "white",
-          padding: "20px",
-          zIndex: 9999
-        }}>
-          <h3>Seat {selectedSeat.seatNumber}</h3>
-          <button onClick={() => setSelectedSeat(null)}>Close</button>
-        </div>
+        <SeatDetailsCard
+          seat ={selectedSeat}
+          onClose={() => setSelectedSeat(null)}
+        />
       )}
     </>
   );
