@@ -6,8 +6,9 @@ const router = express.Router();
 
 router.get("/", getAllSeat);
 router.post("/reset", resetSeats);
+
+router.get("/:id", getSeatById);
 router.post("/book/:seatId", bookSeat);
-router.get("/", getSeatById);
 
 
 export default router;
