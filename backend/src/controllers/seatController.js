@@ -26,34 +26,7 @@ export const resetSeats = async (req, res) => {
   }
 };
 
-// export const bookSeat = async (req, res) => {
-//   try {
-//     const seatId = req.params.seatId;
-//     const { userId, name, email, phone, aadhaar } = req.body;
-//
-//     if (!userId) {
-//       return res.status(400).json({ msg: "User ID missing" });
-//     }
-//
-//     const seat = await Seat.findById(seatId);
-//     if (!seat) return res.status(404).json({ msg: "Seat not found" });
-//
-//     if (seat.isOccupied)
-//       return res.status(400).json({ msg: "Seat already occupied" });
-//
-//     seat.isOccupied = true;
-//     seat.currentMember = userId;
-//     seat.userDetails = { name, email, phone, aadhaar };
-//     seat.paymentStatus = "pending";
-//     seat.expiryDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-//
-//     await seat.save();
-//
-//     res.json({ msg: "Seat booked successfully", seat });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+
 
 export const bookSeat = async (req, res) => {
   try {
@@ -67,12 +40,12 @@ export const bookSeat = async (req, res) => {
     const seat = await Seat.findById(seatId);
     if (!seat) return res.status(404).json({ msg: "Seat not found" });
 
-    // 🔐 If already paid & occupied → block
+    //If already paid & occupied → block
     if (seat.isOccupied && seat.paymentStatus === "paid") {
       return res.status(400).json({ msg: "Seat already occupied" });
     }
 
-    // ⏳ Temporary hold for 15 minutes
+    // Temporary hold for 15 minutes
     seat,isOccupied = false,
     seat.paymentStatus = "pending";
     seat.currentMember = userId;
